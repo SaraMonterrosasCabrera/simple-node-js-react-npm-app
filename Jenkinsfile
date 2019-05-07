@@ -5,11 +5,6 @@ pipeline {
             args '-p 3000:3020' 
         }
     }
-    
-    environment {
-        CI = 'true'
-    }
-    
     stages {
         stage('Build') { 
             steps {
@@ -24,13 +19,15 @@ pipeline {
             }
         }
         
+        stage('Deliver') { 
+            steps {
+                sh './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to Continue)'
+                sh './jenkins/scripts/kill.sh'
+            }
+        }
+        
         
     }
- 
    
-
-       
-    
-    
-    
 }
